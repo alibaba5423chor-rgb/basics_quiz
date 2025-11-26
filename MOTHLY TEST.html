@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>50 MCQ Quiz — Al-Zainab Computer Academy</title>
+  <style>
+    :root{
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --muted:#6b7280;
+      --accent: #2b6cb0;
+      --accent-2: #60a5fa;
+      --glass: rgba(255,255,255,0.6);
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(2,6,23,0.08);
+      --glass-2: rgba(11, 22, 39, 0.04);
+      --success: #16a34a;
+      --danger: #ef4444;
+    }
+
+    /* Theme variants (applied to body via class) */
+    body.theme-soft { --bg:#f4f7fb; --card:#fff; --accent:#2b6cb0; --accent-2:#60a5fa; }
+    body.theme-dark  { --bg:#0b1020; --card:#0f1724; --accent:#7c3aed; --accent-2:#06b6d4; --muted:#94a3b8; --glass: rgba(255,255,255,0.03); }
+    body.theme-gradient { --bg: linear-gradient(180deg,#eef2ff 0%, #e0f2fe 100%); --card: rgba(255,255,255,0.95); --accent:#6d28d9; --accent-2:#0ea5e9; }
+    body.theme-classic { --bg:#f8fafc; --card:#ffffff; --accent:#1e40af; --accent-2:#3b82f6; }
+
+    html,body{height:100%; margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: var(--bg); color: #0f172a; -webkit-font-smoothing:antialiased;}
+    .wrap{min-height:100%; display:flex; align-items:center; justify-content:center; padding:36px;}
+    .app {
+      width:100%;
+      max-width:1100px;
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.86));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position:relative;
+    }
+
+    /* Watermark */
+    .watermark {
+      pointer-events:none;
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0.06;
+      font-weight:900;
+      font-size:160px;
+      color:var(--accent);
+      letter-spacing:6px;
+      transform: rotate(-8deg) scale(1.05);
+      user-select:none;
+    }
+    .app-header{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      padding:28px 36px;
+      border-bottom:1px solid var(--glass-2);
+      background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
+    }
+    .logo {
+      width:76px;
+      height:76px;
+      border-radius:12px;
+      background: linear-gradient(180deg,var(--accent),var(--accent-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:800;
+      font-size:18px;
+      box-shadow: 0 8px 30px rgba(43,108,176,0.18);
+    }
+    .title {
+      flex:1;
+    }
+    .title h1{margin:0;font-size:18px;text-transform:uppercase;letter-spacing:1px;}
+    .title .sub{margin-top:6px;color:var(--muted);font-size:13px;}
+
+    .content { padding:34px; display:flex; gap:28px; flex-wrap:wrap; justify-content:space-between; }
+
+    /* left column (main) */
+    .panel {
+      flex:1 1 640px;
+      min-width:300px;
+      background:var(--card);
+      border-radius:12px;
+      padding:22px;
+      box-shadow: 0 6px 20px rgba(2,6,23,0.04);
+    }
+
+    /* right column (info) */
+    .side {
+      width:320px;
+      min-width:240px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+      border-radius:12px;
+      padding:18px;
+      box-shadow: 0 6px 20px rgba(2,6,23,0.04);
+      height:fit-content;
+    }
+
+    /* Welcome Card */
+    .welcome {
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      padding:28px;
+      border-radius:12px;
+      text-align:center;
+    }
+    .book {
+      width:240px;
+      height:140px;
+      border-radius:10px;
+      background: linear-gradient(180deg, rgba(250,250,255,0.95), rgba(244,246,255,1));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+      border: 1px solid var(--glass-2);
+    }
+    .book::after{
+      content:"";
+      position:absolute;
+      left:18px; top:10px; bottom:10px;
+      width:6px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.02));
+      border-radius:4px;
+    }
+    .book .book-inner{
+      text-align:center;
+      font-weight:700;
+      color:var(--muted);
+    }
+    .name-input{
+      margin-top:16px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      width:100%;
+      justify-content:center;
+    }
+    input[type="text"].student-name{
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #e6e9ee;
+      width:280px;
+      font-size:15px;
+      outline:none;
+      transition:box-shadow .15s ease;
+    }
+    input.student-name:focus{ box-shadow:0 8px 20px rgba(43,108,176,0.12); border-color:var(--accent-2); }
+
+    .btn {
+      padding:10px 16px;
+      border-radius:10px;
+      border:0;
+      background:var(--accent);
+      color:white;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow: 0 8px 20px rgba(43,108,176,0.12);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .btn.secondary { background:transparent; color:var(--accent); border:1px solid var(--glass-2); box-shadow:none; font-weight:600; }
+    .btn:hover{ transform: translateY(-3px); }
+
+    .small{ font-size:13px; color:var(--muted); }
+
+    /* Quiz list */
+    .question {
+      padding:14px;
+      border-radius:10px;
+      border:1px solid #eef2f7;
+      margin-bottom:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,255,1));
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .question:hover{ transform: translateY(-4px); box-shadow: 0 12px 30px rgba(2,6,23,0.05); }
+    .question h4{ margin:0 0 10px 0; font-size:15px; }
+    .options label{
+      display:block;
+      padding:10px 12px;
+      border-radius:8px;
+      margin-bottom:8px;
+      border:1px solid transparent;
+      cursor:pointer;
+      transition: all .12s ease;
+      background: linear-gradient(180deg, rgba(245,247,250,1), rgba(250,250,255,1));
+    }
+    .options input{ margin-right:10px; transform: translateY(2px); }
+    .options label:hover{ transform: translateX(6px); box-shadow: 0 8px 18px rgba(2,6,23,0.04); }
+
+    .status {
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .chip {
+      padding:8px 10px;
+      border-radius:999px;
+      font-weight:600;
+      font-size:13px;
+      background:var(--glass);
+      color:var(--muted);
+      border:1px solid var(--glass-2);
+    }
+
+    .actions {
+      display:flex;
+      gap:10px;
+      align-items:center;
+      margin-top:12px;
+    }
+    .muted { color:var(--muted); font-size:13px; }
+
+    .result {
+      padding:12px;
+      background: linear-gradient(90deg, rgba(240,255,244,1), rgba(245,255,255,1));
+      border:1px solid rgba(198,246,213,0.6);
+      border-radius:10px;
+      margin-top:12px;
+    }
+
+    .correct { background: linear-gradient(90deg, rgba(230,255,239,1), rgba(255,255,255,1)); border-left:4px solid var(--success); }
+    .incorrect { background: linear-gradient(90deg, rgba(255,240,240,1), rgba(255,255,255,1)); border-left:4px solid var(--danger); }
+
+    /* footer */
+    .footer { padding:18px 36px; border-top:1px solid var(--glass-2); display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    .timer { font-weight:700; color:var(--accent); font-size:16px; }
+    .right-actions { display:flex; gap:8px; align-items:center; }
+
+    /* responsive */
+    @media (max-width:980px){
+      .content{ padding:18px; }
+      .side{ width:100%; order:2; }
+      .panel{ order:1; }
+      .app-header{ flex-direction:column; gap:8px; align-items:flex-start; padding:20px; }
+      .watermark{ font-size:110px; opacity:0.04; }
+    }
+  </style>
+</head>
+<body class="theme-soft">
+  <div class="wrap">
+    <div class="app" role="application" aria-labelledby="appTitle">
+      <div class="watermark" id="watermarkText">AL-ZAINAB</div>
+
+      <header class="app-header">
+        <div class="logo" aria-hidden="true">AZ</div>
+        <div class="title">
+          <h1 id="appTitle">AL-ZAINAB COMPUTER ACADEMY SOBHODERO</h1>
+          <div class="sub">Monthly Theory Test — Computer & MS Word (Home + Insert)</div>
+        </div>
+
+        <!-- Theme switcher -->
+        <div style="display:flex;align-items:center;gap:8px">
+          <select id="themeSelect" aria-label="Theme selector" class="small" style="padding:8px;border-radius:8px;border:1px solid #e6e9ee;background:white;">
+            <option value="theme-soft">1 — Modern Soft Blue</option>
+            <option value="theme-dark">2 — Dark Neon</option>
+            <option value="theme-gradient">3 — Colorful Gradient</option>
+            <option value="theme-classic">4 — Classic White + Blue</option>
+          </select>
+        </div>
+      </header>
+
+      <main class="content" id="mainContent">
+        <!-- LEFT: main panel -->
+        <section class="panel" id="mainPanel">
+          <!-- Welcome / Start -->
+          <div id="welcomeView" class="welcome" aria-hidden="false">
+            <div class="book" role="img" aria-label="Book logo">
+              <!-- small logo/initials inside book -->
+              <div class="book-inner">
+                <div style="font-size:20px;color:var(--accent);">AL-Z</div>
+                <div style="font-size:12px;margin-top:6px;color:var(--muted);">Computer Academy</div>
+              </div>
+            </div>
+
+            <h2 style="margin:10px 0 6px 0">ENTER YOUR NAME</h2>
+            <div class="small">Type your full name below — this will appear on the result page.</div>
+
+            <div class="name-input" style="margin-top:16px;">
+              <input id="studentName" class="student-name" type="text" placeholder="Your full name (e.g. Ali Khan)" aria-label="Student name">
+              <button id="nextBtn" class="btn">Next →</button>
+            </div>
+
+            <div style="margin-top:14px;" class="small muted">Tip: Use your real name so your certificate/result shows correctly.</div>
+          </div>
+
+          <!-- Quiz View (hidden until Next) -->
+          <div id="quizView" style="display:none;">
+            <div class="status" aria-hidden="false">
+              <div class="chip" id="studentChip">Student: —</div>
+              <div class="chip" id="progressChip">0 / 50 answered</div>
+              <div class="chip muted" id="questionCount">Questions: 50</div>
+            </div>
+
+            <div id="quizList" aria-live="polite"></div>
+
+            <div class="actions" style="margin-top:12px;">
+              <button id="submitBtn" class="btn">Submit</button>
+              <button id="resetBtn" class="btn secondary">Reset answers</button>
+
+              <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+                <div class="small muted">Time left</div>
+                <div class="timer" id="timerDisplay">60:00</div>
+              </div>
+            </div>
+
+            <div id="resultArea" aria-live="polite"></div>
+          </div>
+
+        </section>
+
+        <!-- RIGHT: info / instructions -->
+        <aside class="side" aria-hidden="false">
+          <h3 style="margin-top:0">Instructions</h3>
+          <ol style="padding-left:18px;color:var(--muted);line-height:1.6">
+            <li>Enter your name on the first page and press <strong>Next</strong>.</li>
+            <li>Answer all questions (one option each). You can submit before time ends.</li>
+            <li>Timer is <strong>1 hour</strong>. When time finishes quiz auto-submits.</li>
+            <li>After submit, a new page will open showing your result and name.</li>
+            <li>Use Reset to clear answers and start again (on quiz page).</li>
+          </ol>
+
+          <hr style="border:none;border-top:1px solid var(--glass-2);margin:12px 0">
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="width:10px;height:10px;border-radius:999px;background:var(--accent)"></div>
+              <div class="small">Theme preview: select from top-right</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="width:10px;height:10px;border-radius:999px;background:var(--success)"></div>
+              <div class="small">Correct answers will be highlighted on submit</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="width:10px;height:10px;border-radius:999px;background:var(--danger)"></div>
+              <div class="small">Incorrect answers marked with a strike</div>
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <footer class="footer">
+        <div class="small muted">Al-Zainab Computer Academy • Monthly Theory Test</div>
+        <div class="right-actions">
+          <div class="small muted">Built: Aesthetic Quiz</div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    /***********************
+     * Questions (50 items)
+     ************************/
+    const questions = [
+  {id:1,q:"What is called the brain of the computer?",options:["Mouse","CPU","Monitor","Keyboard"],answer:1},
+  {id:2,q:"Is the keyboard hardware or software?",options:["Software","Hardware","Both","None"],answer:1},
+  {id:3,q:"What is the main function of the mouse?",options:["Typing","Pointing","Printing","Shutting down"],answer:1},
+  {id:4,q:"What type of software is Windows?",options:["Application","System software","Game","Virus"],answer:1},
+  {id:5,q:"What is MS Word used for?",options:["Making videos","Creating documents","Coding","Games"],answer:1},
+  {id:6,q:"Excel is used for?",options:["Music","Spreadsheet","Drawing","Browsing"],answer:1},
+  {id:7,q:"What type of device is a monitor?",options:["Input","Output","Storage","Processing"],answer:1},
+  {id:8,q:"What type of device is a printer?",options:["Input","Output","System","Software"],answer:1},
+  {id:9,q:"One byte equals how many bits?",options:["4","8","16","32"],answer:1},
+  {id:10,q:"What is required to access the internet?",options:["Calculator","Modem","Speaker","Printer"],answer:1},
+  {id:11,q:"What is the full form of CPU?",options:["Central Process Unit","Central Processing Unit","Center Power Unit","Control Processing Unit"],answer:1},
+  {id:12,q:"Which company developed MS Word?",options:["Google","Apple","Microsoft","Facebook"],answer:2},
+  {id:13,q:"A pen drive is an example of:",options:["Input device","Output device","Storage device","Software"],answer:2},
+  {id:14,q:"What does booting mean?",options:["Starting the computer","Printing a document","Deleting a file","Using the mouse"],answer:0},
+  {id:15,q:"What type of memory is RAM?",options:["Permanent","Temporary","External","Optical"],answer:1},
+  {id:16,q:"Shortcut key to open a file?",options:["Ctrl + N","Ctrl + O","Ctrl + S","Ctrl + C"],answer:1},
+  {id:17,q:"Shortcut key for Save?",options:["Ctrl + P","Ctrl + S","Ctrl + O","Ctrl + A"],answer:1},
+  {id:18,q:"Shortcut key for Paste?",options:["Ctrl + C","Ctrl + X","Ctrl + P","Ctrl + V"],answer:3},
+  {id:19,q:"Shortcut key for Copy?",options:["Ctrl + C","Ctrl + X","Ctrl + V","Ctrl + S"],answer:0},
+  {id:20,q:"Shortcut key for Cut?",options:["Ctrl + C","Ctrl + V","Ctrl + X","Ctrl + A"],answer:2},
+  {id:21,q:"Shortcut key for Bold?",options:["Ctrl + I","Ctrl + U","Ctrl + B","Ctrl + P"],answer:2},
+  {id:22,q:"Shortcut key for Italic?",options:["Ctrl + I","Ctrl + O","Ctrl + U","Ctrl + Q"],answer:0},
+  {id:23,q:"Shortcut key for Underline?",options:["Ctrl + B","Ctrl + U","Ctrl + A","Ctrl + X"],answer:1},
+  {id:24,q:"Font size changing option is in which group of the Home tab?",options:["Insert","Paragraph","Font","Review"],answer:2},
+  {id:25,q:"Shortcut for Align Left?",options:["Ctrl + E","Ctrl + R","Ctrl + L","Ctrl + J"],answer:2},
+  {id:26,q:"Shortcut for Align Center?",options:["Ctrl + C","Ctrl + L","Ctrl + R","Ctrl + E"],answer:3},
+  {id:27,q:"Shortcut for Justify alignment?",options:["Ctrl + J","Ctrl + U","Ctrl + I","Ctrl + Z"],answer:0},
+  {id:28,q:"Bullets option is in which group of the Home tab?",options:["Font","Styles","Paragraph","Editing"],answer:2},
+  {id:29,q:"Highlight color option is in which group?",options:["Shapes","Paragraph","Font","Header"],answer:2},
+  {id:30,q:"Shortcut key to select all text?",options:["Ctrl + A","Ctrl + S","Ctrl + P","Ctrl + D"],answer:0},
+  {id:31,q:"Text color change option is in:",options:["Insert tab","Font group","Review tab","Draw tab"],answer:1},
+  {id:32,q:"Shortcut to increase font size:",options:["Ctrl + Shift + >", "Ctrl + Shift + <", "Ctrl + Shift + +","Ctrl + +"],answer:0},
+  {id:33,q:"Shortcut to decrease font size:",options:["Ctrl + <","Ctrl + Shift + <","Ctrl + >", "Ctrl + Alt + <"],answer:1},
+  {id:34,q:"Shortcut for Find option?",options:["Ctrl + P","Ctrl + S","Ctrl + F","Ctrl + L"],answer:2},
+  {id:35,q:"Shortcut for Replace?",options:["Ctrl + H","Ctrl + F","Ctrl + P","Ctrl + T"],answer:0},
+  {id:36,q:"What is the Insert tab used for?",options:["Saving the document","Adding objects","Deleting text","Closing the file"],answer:1},
+  {id:37,q:"Where is the option to insert a picture?",options:["Home","Insert","Review","View"],answer:1},
+  {id:38,q:"Table insert option is in:",options:["Home tab","Insert tab","Layout tab","File tab"],answer:1},
+  {id:39,q:"Header and Footer are found in which tab?",options:["Insert","Home","View","Layout"],answer:0},
+  {id:40,q:"Shapes insert option is in which tab?",options:["Home","Insert","Draw","Review"],answer:1},
+  {id:41,q:"WordArt is found in which tab?",options:["Insert","Home","Design","References"],answer:0},
+  {id:42,q:"Page Number option is in which tab?",options:["Home","Insert","Layout","Review"],answer:1},
+  {id:43,q:"Shortcut key to insert a hyperlink?",options:["Ctrl + L","Ctrl + K","Ctrl + H","Ctrl + N"],answer:1},
+  {id:44,q:"Chart insert option is in:",options:["Insert","View","Home","Review"],answer:0},
+  {id:45,q:"Text Box is inserted from which tab?",options:["Home","Insert","Layout","Design"],answer:1},
+  {id:46,q:"Symbol insert option is in:",options:["Insert","Home","Review","View"],answer:0},
+  {id:47,q:"Equation insert option is in:",options:["Home","Insert","Layout","Review"],answer:1},
+  {id:48,q:"Screenshot option is in which tab?",options:["Insert","View","Review","Home"],answer:0},
+  {id:49,q:"Cover Page option is found in:",options:["Design","Insert","Layout","Review"],answer:1},
+  {id:50,q:"SmartArt option is found in:",options:["Home","Insert","File","Layout"],answer:1}
+];
+
+    /***********************
+     * UI Elements & State
+     ************************/
+    const welcomeView = document.getElementById('welcomeView');
+    const quizView = document.getElementById('quizView');
+    const nextBtn = document.getElementById('nextBtn');
+    const studentNameInput = document.getElementById('studentName');
+    const studentChip = document.getElementById('studentChip');
+    const quizList = document.getElementById('quizList');
+    const progressChip = document.getElementById('progressChip');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const resultArea = document.getElementById('resultArea');
+    const themeSelect = document.getElementById('themeSelect');
+    let studentName = '';
+    let totalSeconds = 60 * 60; // 1 hour
+    let countdown; // interval ref
+
+    /* Theme switching (supports 4 variants) */
+    themeSelect.addEventListener('change', (e)=>{
+      document.body.classList.remove('theme-soft','theme-dark','theme-gradient','theme-classic');
+      document.body.classList.add(e.target.value);
+      document.getElementById('watermarkText').style.color = getComputedStyle(document.documentElement).getPropertyValue('--accent') || '';
+    });
+
+    // Initialize themeSelect to reflect body class
+    (function initTheme(){
+      // default already theme-soft
+      themeSelect.value = 'theme-soft';
+    })();
+
+    /***********************
+     * Navigation: Welcome -> Quiz
+     ************************/
+    nextBtn.addEventListener('click', () => {
+      const name = studentNameInput.value.trim();
+      if(!name){
+        studentNameInput.focus();
+        studentNameInput.style.borderColor = 'var(--danger)';
+        setTimeout(()=>studentNameInput.style.borderColor = '',900);
+        return;
+      }
+      studentName = name;
+      studentChip.textContent = `Student: ${studentName}`;
+      welcomeView.style.display = 'none';
+      quizView.style.display = 'block';
+      renderQuiz();
+      startTimer();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    /***********************
+     * Render quiz questions
+     ************************/
+    function renderQuiz(){
+      quizList.innerHTML = '';
+      questions.forEach((item, idx) => {
+        const qEl = document.createElement('div');
+        qEl.className = 'question';
+        qEl.id = `q-${idx}`;
+        qEl.innerHTML = `
+          <h4><strong>${item.id}.</strong> ${item.q}</h4>
+          <div class="options" role="radiogroup" aria-labelledby="q-${idx}">
+            ${item.options.map((opt,oIdx)=>`
+              <label>
+                <input type="radio" name="q${idx}" value="${oIdx}" aria-label="Option ${oIdx+1} for question ${item.id}"> ${opt}
+              </label>`).join('')}
+          </div>
+        `;
+        quizList.appendChild(qEl);
+      });
+      updateProgress();
+    }
+
+    /***********************
+     * Progress tracking
+     ************************/
+    function updateProgress(){
+      const total = questions.length;
+      const answered = Array.from({length:total}).reduce((acc,_,i)=>(
+        acc + (document.querySelector(`input[name=q${i}]:checked`)?1:0)
+      ),0);
+      progressChip.textContent = `${answered} / ${total} answered`;
+    }
+
+    document.addEventListener('change', (e)=>{
+      if(e.target.matches('input[type=radio]')) updateProgress();
+    });
+
+    /***********************
+     * Timer (1 hour)
+     ************************/
+    function startTimer(){
+      // Clear previous interval if any
+      if(countdown) clearInterval(countdown);
+      totalSeconds = 60 * 60; // 3600 seconds
+      updateTimerDisplay();
+      countdown = setInterval(()=>{
+        totalSeconds--;
+        if(totalSeconds <= 0){
+          clearInterval(countdown);
+          // Auto-submit
+          handleSubmit(true);
+        }
+        updateTimerDisplay();
+      },1000);
+    }
+
+    function updateTimerDisplay(){
+      const mm = Math.floor(totalSeconds / 60);
+      const ss = totalSeconds % 60;
+      timerDisplay.textContent = `${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+    }
+
+    /***********************
+     * Submit / Reset
+     ************************/
+    submitBtn.addEventListener('click', ()=> handleSubmit(false));
+
+    function handleSubmit(auto=false){
+      // Stop timer
+      if(countdown) clearInterval(countdown);
+
+      let correctCount = 0;
+      const answersSummary = [];
+
+      questions.forEach((item, idx)=>{
+        const sel = document.querySelector(`input[name=q${idx}]:checked`);
+        const container = document.getElementById(`q-${idx}`);
+        // clean classes
+        container.classList.remove('correct','incorrect');
+        container.querySelectorAll('label').forEach(l=>{ l.style.fontWeight=''; l.style.textDecoration=''; l.style.opacity=''; });
+
+        if(sel){
+          const selIdx = Number(sel.value);
+          const correct = (selIdx === item.answer);
+          answersSummary.push({id:item.id, selected:selIdx, correct: item.answer, isCorrect: correct});
+          if(correct){
+            correctCount++;
+            container.classList.add('correct');
+            container.querySelectorAll('label')[selIdx].style.fontWeight='700';
+          } else {
+            container.classList.add('incorrect');
+            container.querySelectorAll('label')[selIdx].style.textDecoration='line-through';
+            container.querySelectorAll('label')[item.answer].style.fontWeight='700';
+            container.querySelectorAll('label')[item.answer].style.opacity='0.95';
+          }
+        } else {
+          answersSummary.push({id:item.id, selected:null, correct: item.answer, isCorrect:false});
+          container.classList.add('incorrect');
+          container.querySelectorAll('label')[item.answer].style.fontWeight='700';
+          container.querySelectorAll('label')[item.answer].style.opacity='0.95';
+        }
+      });
+
+      const percent = Math.round((correctCount / questions.length) * 100);
+      resultArea.innerHTML = `
+        <div class="result">
+          <strong>Score:</strong> ${correctCount} / ${questions.length} (<strong>${percent}%</strong>)
+          <div class="small muted">Time left: ${timerDisplay.textContent} ${auto? '(Auto-submitted)': ''}</div>
+        </div>
+      `;
+      resultArea.scrollIntoView({behavior:'smooth'});
+
+      // open result page with details and name
+      openResultWindow({studentName, correctCount, total: questions.length, percent, timeLeft: timerDisplay.textContent, answersSummary});
+    }
+
+    resetBtn.addEventListener('click', ()=>{
+      document.querySelectorAll('input[type=radio]').forEach(i=>i.checked=false);
+      document.querySelectorAll('.question').forEach(c=>{ c.classList.remove('correct','incorrect'); c.querySelectorAll('label').forEach(l=>{ l.style.fontWeight=''; l.style.textDecoration=''; l.style.opacity=''; }); });
+      resultArea.innerHTML = '';
+      updateProgress();
+      // Restart timer if already started
+      if(quizView.style.display === 'block'){
+        if(countdown) clearInterval(countdown);
+        startTimer();
+      }
+    });
+
+    /***********************
+     * Open Result Window
+     ************************/
+    function openResultWindow({studentName, correctCount, total, percent, timeLeft, answersSummary}){
+      const w = window.open('', '_blank', 'width=700,height=700,top=50,left=50,menubar=no,toolbar=no,location=no');
+      const now = new Date();
+      const usedMinutes = (60*60 - (parseInt(timeLeft.split(':')[0])*60 + parseInt(timeLeft.split(':')[1]))) ;
+      // Build a minimal but styled result HTML
+      w.document.write(`
+      <!doctype html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Result — ${studentName}</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <style>
+          body{ font-family: Inter, system-ui, -apple-system, Roboto, "Segoe UI", Arial; margin:0; padding:24px; background:#f3f6fb; color:#0f172a;}
+          .card{ max-width:720px; margin:24px auto; background:white; padding:20px; border-radius:12px; box-shadow:0 12px 40px rgba(2,6,23,0.08); }
+          h1{ margin:0 0 6px 0; font-size:20px;}
+          .meta{ color:#64748b; margin-bottom:12px;}
+          .score{ display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+          .big{ font-size:36px; font-weight:800; color:#0ea5e9;}
+          .small{ color:#475569;}
+          .btn{ display:inline-block; padding:10px 14px; border-radius:10px; background:#2b6cb0; color:white; text-decoration:none; margin-top:12px; }
+          table{ width:100%; border-collapse:collapse; margin-top:14px; }
+          th,td{ text-align:left; padding:8px 10px; border-bottom:1px solid #eef2f7; font-size:14px; }
+          .ok{ color:#16a34a; font-weight:700; }
+          .bad{ color:#ef4444; font-weight:700; text-decoration:line-through; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <h1>Result — ${studentName}</h1>
+          <div class="meta">Test: Monthly Theory Test • Date: ${now.toLocaleString()}</div>
+          <div class="score">
+            <div>
+              <div class="big">${correctCount} / ${total}</div>
+              <div class="small">Score</div>
+            </div>
+            <div>
+              <div style="font-weight:800;font-size:22px">${percent}%</div>
+              <div class="small">Percentage</div>
+            </div>
+            <div>
+              <div style="font-weight:700">${timeLeft} left</div>
+              <div class="small">Time remaining (when submitted)</div>
+            </div>
+          </div>
+
+          <a class="btn" href="#" onclick="window.print(); return false">Print / Save as PDF</a>
+          <a class="btn" style="background:#06b6d4;margin-left:8px" href="#" onclick="window.close(); return false">Close</a>
+
+          <h3 style="margin-top:18px;margin-bottom:6px">Summary</h3>
+          <div class="small">Green = correct, red/strikethrough = your wrong choice (correct choice shown).</div>
+
+          <table aria-label="Answers summary">
+            <thead><tr><th>#</th><th>Selected</th><th>Correct</th><th>Status</th></tr></thead>
+            <tbody>
+              ${answersSummary.map(a=>{
+                const sel = a.selected === null ? '<em>-</em>' : questions[a.id-1].options[a.selected];
+                const corr = questions[a.id-1].options[a.correct];
+                const status = a.isCorrect ? '<span class="ok">Correct</span>' : '<span class="bad">Incorrect</span>';
+                return `<tr><td>${a.id}</td><td>${sel}</td><td>${corr}</td><td>${status}</td></tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </body>
+      </html>
+      `);
+      w.document.close();
+    }
+
+    // Accessibility: allow pressing Enter on name input
+    studentNameInput.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter') nextBtn.click();
+    });
+
+    /***********************
+     * Auto-focus name input
+     ************************/
+    studentNameInput.focus();
+  </script>
+</body>
+</html>
